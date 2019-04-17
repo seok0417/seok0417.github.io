@@ -4,32 +4,20 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>나라 분류</title>
-  </head>
-  <body>
-  <div>
-  <form name="form">
-  <select name="test" onchange="changes(document.form.test.value)">
-    <option value="">--인종별 나라(지역) 알기 --</option>
-    <option value="1">황인</option>
-    <option value="2">흑인</option>
-    <option value="3">백인</option>
-  </select>
-    <select name="test2">
-    <option>----</option>
-  </select>
-</form>
-</div>
-<script type="text/javascript">
+  <h3>
+  인종별 최다인종 국가(지역)
+  </h3>
+  <script type="text/javascript">
   function changes(fr) {
     if(fr==1) {
-    num = new Array("대한민국","몽골","중국","인도");
+    num = new Array("국가(지역)","대한민국","몽골","중국","인도");
     vnum = new Array("1","2","3");
     } else if(fr==2) {
-      num = new Array("아프리카","아프리카 중부이남","미국");
+      num = new Array("국가(지역)","아프리카","아프리카 중부이남","미국");
     vnum = new Array("1","2","3");
     }
     else if(fr==3) {
-      num = new Array("유럽","북 아프리카","아라비아 반도");
+      num = new Array("국가(지역)","유럽","북 아프리카","아라비아 반도");
     vnum = new Array("1","2","3");
     }
   for(i=0; i<form.test2.length; i++) {
@@ -40,5 +28,26 @@
   }
 }
 </script>
+  </head>
+  <body>
+  <div>
+  <form name="form">
+  <select name="test" onchange="changes(document.form.test.value)">
+    <option value="">인종별 국가(지역) 알기</option>
+    <option value="1">황인</option>
+    <option value="2">흑인</option>
+    <option value="3">백인</option>
+  </select>
+    <select name="test2">
+    <option>인종 우선 선택</option>
+  </select>
+</form>
+</div>
 </body>
 </html>
+
+
+
+
+
+
