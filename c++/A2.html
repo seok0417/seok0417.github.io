@@ -1,0 +1,207 @@
+/**
+	@file	20181371_A2.c
+	@brief	코인의 개수 또는 달러와 센트 값을 주어지면 코인의 개수와 달러와 센트를 출력하는 프로그램을 작성
+	@author	20181371 석재현
+	@date	2019-03-26
+*/
+
+#include<iostream>
+using namespace std;
+
+class Coin
+{
+	int m_penny, m_nickel, m_dime, m_quarter;
+	int m_dollar, m_cent;
+public:
+	Coin();
+	Coin(int quarter, int dime, int nickel, int penny);
+	Coin(int dollar, int cent);
+	bool Set_Quarter(int quarter);
+	bool Set_Dime(int dime);
+	bool Set_Nickel(int nickel);
+	bool Set_Penny(int penny);
+	bool Set_Dollar(int dollar);
+	bool Set_cent(int cent);
+	int Get_Penny();
+	int Get_Nickel();
+	int Get_Dime();
+	int Get_Quarter();
+	int Get_Dollar();
+	int Get_cent();
+	void Exchange_Coin_To_Dollar();
+	void Exchange_Dollar_To_Coin();
+	void Print_Money();
+};
+Coin::Coin()
+{
+	m_penny = 1;
+	m_nickel = 1;
+	m_dime = 1;
+	m_quarter = 1;
+	m_dollar = 0;
+	m_cent = 41;
+}
+Coin::Coin(int quarter, int dime, int nickel, int penny)
+{
+	m_quarter = quarter;
+	m_dime = dime;
+	m_nickel = nickel;
+	m_penny = penny;
+	Exchange_Coin_To_Dollar();                                 
+}
+Coin::Coin(int dollar, int cent)
+{
+	m_dollar = dollar;
+	m_cent = cent;
+	Exchange_Dollar_To_Coin();
+}
+
+int Coin::Get_Penny()
+{
+	return m_penny;
+}
+int Coin::Get_Nickel()
+{
+	return m_nickel;
+}
+int Coin::Get_Dime()
+{
+	return m_dime;
+}
+int Coin::Get_Quarter()
+{
+	return m_quarter;
+}
+int Coin::Get_Dollar()
+{
+	return m_dollar;
+}
+int Coin::Get_cent()
+{
+	return m_cent;
+}
+
+bool Coin::Set_Penny(int penny)
+{
+	if (penny < 0)
+		return false;
+	else
+	{
+		m_penny=penny;
+		return true;
+	}
+}
+bool Coin::Set_Nickel(int nickel)
+{
+	if (nickel < 0)
+		return false;
+	else
+	{
+		m_nickel=nickel;
+		return true;
+	}
+}
+bool Coin::Set_Dime(int dime)
+{
+	if (dime < 0)
+		return false;
+	else
+	{
+		m_dime=dime;
+		return true;
+	}
+		
+}
+bool Coin::Set_Quarter(int quarter)
+{
+	if (quarter < 0)
+		return false;
+	else
+	{
+		m_quarter=quarter;
+		return true;
+	}
+}
+bool Coin::Set_Dollar(int dollar)
+{
+	if (dollar < 0)
+		return false;
+	else
+	{
+		m_dollar=dollar;
+		return true;
+	}
+}
+bool Coin::Set_cent(int cent)
+{
+	if (cent < 0)
+		return false;
+	else
+	{
+		m_cent=cent;
+		return true;
+	}
+}
+
+void Coin::Exchange_Coin_To_Dollar()
+{
+	m_dollar =  ((25 * m_quarter) + (10 * m_dime) + (5 * m_nickel) + (1 * m_penny))  / 100;
+	m_cent =  ((25 * m_quarter) + (10 * m_dime) + (5 * m_nickel) + (1 * m_penny))  % 100;
+}
+void Coin::Exchange_Dollar_To_Coin()
+{
+	int result = (m_dollar * 100) + m_cent;
+	m_quarter = result / 25;
+	result = result % 25;
+	m_dime = result / 10;
+	result = result % 10;
+	m_nickel = result / 5;
+	result = result % 5;
+	m_penny = result / 1;
+	result = result % 1;
+}
+void Coin::Print_Money()
+{
+	cout << "====================================================================" << endl;
+	cout <<"코인의 갯수는 "<< m_quarter << " 쿼러," << m_dime << " 다임," << m_nickel << " 니클," << m_penny << " 페니" << endl;
+	cout << "달러로 환산하면 " << m_dollar << " 달러." << m_cent << " 센트 입니다." << endl;
+
+}
+
+int main(void)
+{
+	int quarter1, dime1, nickel1, penny1, dollar1, cent1;
+	Coin CoinCountRest1(4, 5, 2, 6);
+	Coin CoinCountRest2(5, 62);
+	Coin CoinCountRest3;
+	CoinCountRest1.Print_Money();
+	CoinCountRest2.Print_Money();
+	CoinCountRest3.Print_Money();
+	CoinCountRest1.Set_Quarter(7);
+	CoinCountRest1.Set_Nickel(23);
+	CoinCountRest1.Exchange_Coin_To_Dollar();
+	cout << "====================================================================" << endl;
+	cout << "코인의 갯수는 " << CoinCountRest1.Get_Quarter() << " 쿼러," << CoinCountRest1.Get_Dime() << " 다임," << CoinCountRest1.Get_Nickel() << " 니클," << CoinCountRest1.Get_Penny() << " 페니" << " 이고" << endl;
+	cout << "달러로 환산하면 " << CoinCountRest1.Get_Dollar() << " 달러" << CoinCountRest1.Get_cent() << " 센트" << endl;
+	CoinCountRest2.Set_Dollar(2);
+	CoinCountRest2.Set_cent(43);
+	CoinCountRest2.Exchange_Dollar_To_Coin();
+	CoinCountRest2.Print_Money();
+	cout << "동전의 개수를 순서대로 입력하세요(쿼러,다임,니클,페니): ";
+	cin >> quarter1 >> dime1 >> nickel1 >> penny1;
+
+	while ((CoinCountRest3.Set_Quarter(quarter1) && CoinCountRest3.Set_Dime(dime1) && CoinCountRest3.Set_Nickel(nickel1) && CoinCountRest3.Set_Penny(penny1)) == 0)
+	{
+		cout << "입력된 값 중에 음수가 있습니다." << endl;
+		cout << "0이상의 값으로 동전의 개수를 순서대로 입력하세요(쿼러,다임,니클,페니): ";
+		cin >> quarter1 >> dime1 >> nickel1 >> penny1;
+	}
+		CoinCountRest3.Set_Quarter(quarter1);
+		CoinCountRest3.Set_Dime(dime1);
+		CoinCountRest3.Set_Nickel(nickel1);
+		CoinCountRest3.Set_Penny(penny1);
+		CoinCountRest3.Exchange_Coin_To_Dollar();
+		CoinCountRest3.Print_Money();
+	return 0;
+}
+
