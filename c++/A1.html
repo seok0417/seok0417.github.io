@@ -1,0 +1,126 @@
+/**
+	@file	20181371_A1.c
+	@brief	음료 자판기 만들기
+	@author	20181371 석재현
+	@date	2019-03-21
+*/
+#include <iostream>
+
+using namespace std;
+
+void input_Data(int *money, int *type, int *num);
+int Compute_Total(int type, int num);
+char check_Money(int total, int *money);
+void print_Result(char selection, int total, int money, int type, int num);
+
+int main(void)
+{
+	int total, money, type, num;
+	char selection;
+
+	do
+	{
+		cout << "========================음료 자판기==================++=============" << endl;
+		cout << " 1.생수 : 500원          2.사이다 : 800원        3.옥수수차 : 1200원" << endl;
+		cout << "=====================================================++=============" << endl;
+
+		input_Data(&money, &type, &num);
+		total = Compute_Total(type, num);
+		selection = check_Money(total, &money);
+		print_Result(selection, total, money, type, num);
+
+		cout << "\n음료수를 더 뽑겠습니까? (Y/N): ";
+		cin >> selection;
+
+		while (selection != 'Y' && selection != 'y' && selection != 'N' && selection != 'n')
+		{
+			cout << "오직 Y,y,N,n만 입력하시오. : ";
+			cin >> selection;
+		}
+	} while (selection == 'y' || selection == 'Y');
+	cout << "이용해 주셔서 감사합니다.";
+	return 0;
+}
+
+void input_Data(int *money, int *type, int *num)
+{
+	cout << "돈을 넣어주세요 : ";
+	cin >> *money;
+
+	cout << "음료 선택 및 수량 >> ";
+	cin >> *type;
+	cin >> *num;
+}
+
+int Compute_Total(int type, int num)
+{
+	switch (type)
+	{
+	case 1:
+		return 500 * num;
+		break;
+	case 2:
+		return 800 * num;
+		break;
+	case 3:
+		return 1200 * num;
+		break;
+	}
+}
+
+char check_Money(int total, int *money)
+{
+	int moremoeny;
+	char selection = 'n';
+
+	if (total <= *money)
+		return 'Y';
+	else
+	{
+		while (total > *money)
+		{
+			cout << total - *money << " 원이 부족합니다, 돈을 더 투입하시겠습니까? (Y / N)";
+			cin >> selection;
+
+			if (selection == 'Y' || selection == 'y')
+			{
+				cout << "추가 투입금 : ";
+				cin >> moremoeny;
+				*money += moremoeny;
+			}
+			else if (selection == 'N' || selection == 'n')
+			{
+				return selection;
+			}
+		}
+	}
+	return selection;
+}
+
+void print_Result(char selection, int total, int money, int type, int num)
+{
+	char vm[][30] = { "생수","사이다","옥수수차" };                             //vending machine(자판기)
+	if (selection == 'Y' || selection == 'y')
+	{
+		cout << "현재 금액: " << money << "입니다." << endl << "음료는";
+
+		switch (type)
+		{
+		case 1:
+			cout << vm[0];
+			break;
+		case 2:
+			cout << vm[1];
+			break;
+		case 3:
+			cout << vm[2];
+			break;
+		}
+		cout << " " << num << "개와 ";
+		cout << "잔돈 " << (money - total) << "원을 받으십시요." << endl;
+	}
+	else
+	{
+		cout << money << "원을 받으십시요" << endl;
+	}
+}
