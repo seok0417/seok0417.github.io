@@ -1,0 +1,212 @@
+/**
+	@file	20181371A4.cpp
+	@brief	시간연산 프로그램
+	@author	20181371 석재현
+	@date	2019-04-30
+*/
+#include<iostream>
+#include<string>
+using namespace std;
+
+class MyTime
+{
+	int m_hour;
+	int m_min;
+public:
+	MyTime(int min = 0);
+	MyTime(int hour, int min);
+	MyTime operator+(MyTime t);
+	friend MyTime operator+(MyTime t, int min);
+	MyTime operator-(int min);
+	friend MyTime operator-(MyTime t1, MyTime t2);
+	MyTime operator*(double k);
+	friend MyTime operator*(double k, MyTime t);
+	MyTime operator=(MyTime t);
+	friend int operator>(MyTime t1, MyTime t2);
+	void Print_Time(string obj);
+	friend int Compute_Total_Mins(MyTime t);
+	MyTime Make_Time_Object(int min);
+};
+
+MyTime::MyTime(int min)
+{
+	if (min < 0)
+	{
+		m_hour = 0;
+		m_min = 0;
+	}
+	else
+	{
+		m_hour = min / 60;
+		m_min = min % 60;
+	}
+}
+
+MyTime::MyTime(int hour, int min)
+{
+	if (hour<0||min<0)
+	{
+		m_hour = 0;
+		m_min = 0;
+	}
+	else
+	{
+		m_hour = hour + min / 60;
+		m_min = min % 60;
+	}
+	
+}
+
+MyTime MyTime::operator+(MyTime t)
+{
+	MyTime temp;
+	int result;
+	result = Compute_Total_Mins(*this) + Compute_Total_Mins(t); 
+	
+	return temp.Make_Time_Object(result);
+}
+
+MyTime operator+(MyTime t, int min)
+{
+	MyTime temp; 
+	int result;
+	result = Compute_Total_Mins(t) + min;
+	
+	return temp.Make_Time_Object(result);
+}
+
+MyTime MyTime::operator-(int min)
+{
+	MyTime temp;
+	int result;
+	result = Compute_Total_Mins(*this) - min;
+	if (result < 0)
+	{
+		m_hour = 0, m_min = 0;
+		return *this;
+	}
+	else 
+	{
+		return temp.Make_Time_Object(result);
+	}
+}
+
+MyTime operator-(MyTime t1, MyTime t2)
+{
+	MyTime temp;
+	int result;
+	result = Compute_Total_Mins(t1) - Compute_Total_Mins(t2);
+	if (result < 0)
+	{
+		temp.m_hour = 0, temp.m_min = 0;
+		return temp;
+	}
+	else
+	{
+		return temp.Make_Time_Object(result);
+	}
+}
+
+MyTime MyTime :: operator*(double k)
+{
+	MyTime temp;
+	int result;
+	result = (int)(Compute_Total_Mins(*this)*k);
+
+	return temp.Make_Time_Object(result);
+}
+
+MyTime operator*(double k, MyTime t)
+{
+	MyTime temp;
+	int result;
+	result = (int)(k*Compute_Total_Mins(t));
+
+	return temp.Make_Time_Object(result);
+}
+
+MyTime MyTime ::operator=(MyTime t)
+{
+	m_hour = t.m_hour;
+	m_min = t.m_min;
+	return *this;
+}
+
+int operator>(MyTime t1, MyTime t2)
+{
+	if (t1.m_hour > t2.m_hour)
+		return 1;
+	else if (t1.m_hour < t2.m_hour)
+		return -1;
+	else if (t1.m_hour = t1.m_hour)
+		return 0;
+}
+
+void MyTime::Print_Time(string obj)
+{
+	if (m_hour == 0)
+	{
+		cout << obj << ": " << m_min << "분" << endl;
+	}
+	else
+	cout << obj << ": " << m_hour << "시간 " << m_min << "분"<<endl;
+}
+
+int Compute_Total_Mins(MyTime t)
+{
+	return t.m_hour * 60 + t.m_min;
+}
+
+MyTime MyTime::Make_Time_Object(int min)
+{
+	m_hour = min / 60;
+	m_min = min % 60;
+	return *this;
+}
+
+int main(void)
+{
+	MyTime ob1(135), ob2(2,90), ob3(3,-30), result;
+	ob1.Print_Time("ob1");
+	ob2.Print_Time("ob2");
+	ob3.Print_Time("ob3");
+	cout << "ob1의 total mins : " << Compute_Total_Mins(ob1) << "분" << endl;
+	cout << "ob2의 total mins : " << Compute_Total_Mins(ob2) << "분" << endl;
+	result = ob1 + ob2;
+	result.Print_Time("ob1+ob2");
+	result = ob1 + 80;
+	result.Print_Time("ob1+80");
+	result = ob1 - ob2;
+	result.Print_Time("ob1-ob2");
+	result = ob2 - ob1;
+	result.Print_Time("ob2-ob1");
+	result = ob1 - 45;
+	result.Print_Time("ob1-45");
+	result = ob2 * 10;
+	result.Print_Time("ob2*10");
+	result = 3.75 * ob2;
+	result.Print_Time("3.75*ob2");
+
+	int R = 0;
+	R = ob1 > ob2;
+	if (R == 1)
+		cout << "ob1의 시간은 ob2보다 큽니다." << endl;
+	else if (R == -1)
+		cout << "ob1의 시간은 ob2보다 작습니다." << endl;
+	else if (R == 0)
+		cout << "ob1의 시간은 ob2와 같습니다." << endl;
+
+	result = ob1 = ob2;
+	result.Print_Time("ob1=ob2");
+
+	R = ob1 > ob2;
+	if (R == 1)
+		cout << "ob1의 시간은 ob2보다 큽니다." << endl;
+	else if (R == -1)
+		cout << "ob1의 시간은 ob2보다 작습니다." << endl;
+	else if (R == 0)
+		cout << "ob1의 시간은 ob2와 같습니다." << endl;
+
+	return 0;
+
+}
